@@ -1,12 +1,19 @@
 // swift-tools-version:5.5
 
 /**
-*  Publish
-*  Copyright (c) John Sundell 2019
-*  MIT license, see LICENSE file for details
-*/
+ *  Publish
+ *  Copyright (c) John Sundell 2019
+ *  MIT license, see LICENSE file for details
+ */
 
 import PackageDescription
+
+let settings: [SwiftSetting]
+#if os(Linux)
+    settings = [.define("OS_LINUX")]
+#elseif os(macOS)
+    settings = [.define("OS_MAC")]
+#endif
 
 let package = Package(
     name: "Publish",
@@ -17,9 +24,8 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            name: "Ink",
-            url: "https://github.com/johnsundell/ink.git",
-            from: "0.2.0"
+            url: "https://github.com/apple/swift-markdown.git",
+            .branch("main")
         ),
         .package(
             name: "Plot",
@@ -56,9 +62,15 @@ let package = Package(
         .target(
             name: "Publish",
             dependencies: [
-                "Ink", "Plot", "Files", "Codextended",
-                "ShellOut", "Sweep", "CollectionConcurrencyKit"
-            ]
+                .product(name: "Markdown", package: "swift-markdown"),
+                "Plot",
+                "Files",
+                "Codextended",
+                "ShellOut",
+                "Sweep",
+                "CollectionConcurrencyKit"
+            ],
+            swiftSettings: settings
         ),
         .executableTarget(
             name: "PublishCLI",

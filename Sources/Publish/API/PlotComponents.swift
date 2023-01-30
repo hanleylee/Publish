@@ -6,7 +6,6 @@
 
 import Foundation
 import Plot
-import Ink
 import Sweep
 
 // MARK: - Nodes and Attributes

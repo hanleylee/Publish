@@ -7,7 +7,6 @@
 import XCTest
 import Publish
 import Plot
-import Ink
 
 final class PluginTests: PublishTestCase {
     func testAddingContentUsingPlugin() throws {

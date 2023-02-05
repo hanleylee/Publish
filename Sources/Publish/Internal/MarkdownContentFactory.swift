@@ -68,8 +68,8 @@ private extension MarkdownContentFactory {
         let video = try decoder.decodeIfPresent("video", as: Video.self)
 
         return Content(
-            title: title ?? markdown.title ?? file.nameExcludingExtension,
-            description: description ?? "",
+            title: title ?? markdown.title,
+            description: description ?? markdown.exposeDescription,
             body: Content.Body(html: markdown.html),
             date: date,
             lastModified: lastModified,

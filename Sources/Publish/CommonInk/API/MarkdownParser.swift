@@ -46,10 +46,8 @@ public struct MarkdownParser {
 
         var markdown = markdown
         if #available(macOS 13.0, *) {
-            if let metadataString = markdown.firstSubstring(between: "---", and: "---"),
-               let metadataRange = markdown.firstRange(of: "---" + metadataString + "---")
-            {
-                markdown.removeSubrange(metadataRange)
+            if let metadataString = markdown.metadataString() {
+                markdown.removeMetadata()
 
                 var metadataLines = metadataString.split(separator: "\n").map { $0.trimmingWhitespaces() }
                     metadataLines.removeAll(where: { $0.isEmpty })
@@ -88,6 +86,7 @@ public struct MarkdownParser {
         let htmlText = htmlVisitor.visit(document) as String
 
         return FullMarkdown(
+            raw: markdown,
             html: htmlText,
             title: metadata["title"] ?? "",
             metadata: metadata

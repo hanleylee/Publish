@@ -28,12 +28,16 @@ struct HTMLVisitor: MarkupVisitor {
         if !(markUp is Table.Cell) && !(markUp is Table.Head) && !(markUp is Table.Row) && !(markUp is Table.Body)  {
             
             let formatted = Substring(markUp.format()).trimmingWhitespaces()
-            modifiers.applyModifiers(for: target) { modifier in html = modifier.closure((html, formatted)) }
+            modifiers.applyModifiers(for: target) { modifier in
+                html = modifier.closure((html, formatted))
+            }
             return html
         }
         
         guard let range = markUp.range, let rawString = sourceText?.substring(in: range) else { return html }
-        modifiers.applyModifiers(for: target) { modifier in html = modifier.closure((html, rawString)) }
+        modifiers.applyModifiers(for: target) { modifier in
+            html = modifier.closure((html, rawString))
+        }
         return html
     }
     
